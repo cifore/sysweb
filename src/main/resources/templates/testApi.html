@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>API List Infomation</title>
+    <!-- CSS引用 -->
+    <link rel="stylesheet" href="/css/bootstarp-table/bootstrap-table.css" type="text/css" />
+    <link rel="stylesheet" href="/css/bootstarp-table/bootstrap-table.min.css" type="text/css" />   
+	<link rel="stylesheet" href="/css/bootstrap-3.3.7-dist/bootstrap.css" type="text/css" />   
+    <link rel="stylesheet" href="/css/bootstrap-val/bootstrapValidator.css" type="text/css" />
+    <link rel="stylesheet" href="/css/bootstrap-select/bootstrap-select.css" type="text/css" />
+    <link rel="stylesheet" href="/css/main/bootstrap.css" type="text/css" />
+    <!-- JS引用 -->
+    <script src="/js/jquery/jquery.js" type="text/javascript"></script>
+    <script src="/js/jquery/jquery.knob.js" type="text/javascript"></script>
+    <script src="/js/jquery/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/jquery/jquery-3.3.1.min.js" type="text/javascript"></script>
+	<script src="/js/bootstrap-3.3.7-dist/bootstrap.js"></script>
+    <script src="/js/bootstrap-table/dist/bootstrap-table.js" type="text/javascript"></script>
+	<script src="/js/bootstrap-table/dist/locale/bootstrap-table-zh-CN.js"></script>
+    <script src="/js/bootstrap-val/bootstrapValidator.min.js"></script>
+    <script src="/js/main/testApi.js"></script>
+  </head>
+  
+  <body>
+  	<div style="font-size:32px;margin-left:15px;margin-top:20px;text-align:center;">Test API</div>
+  	<div class="pannel pannel-default">
+  		
+  		<div class="panel-body">
+  			<form class="form-horizontal" role="form" onsubmit="return false;">
+  				<div class="form-group">
+					<label class="control-label col-sm-2" for="requestMethod">Request Method</label>
+					<div class="col-sm-2">
+						<select id='requestMethod' class="form-control" onChange="hideOutput()">
+							<option value="GET"> GET</option>
+							<option value="POST"> POST</option>
+						</select>
+					</div>
+					<label class="control-label col-sm-1" for="apiUrl">API URL</label>
+					<div class="col-sm-7">
+						<input type="text" class="form-control" id="apiUrl" onChange="hideOutput()"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="inputDesc">Input</label>
+					<div class="col-sm-10">
+						<textarea style="height:200px;" class="form-control" id="inputDesc" onChange="hideOutput()"></textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-2">
+						<button type="button" class="btn btn-primary" id="send" onClick="sendApi()"> Send </button>
+					</div>
+					<div class="col-sm-8">
+						<button type="button" class="btn btn-primary" id="back" onClick="returnListPage()"> Back to API List Page </button>
+					</div>
+				</div>
+				<div class="form-group">
+					<div id="output" class="hidden">
+						<label class="control-label col-sm-2" for="outputDesc">Output</label>
+						<div class="col-sm-10">
+							<textarea style="height:200px;" class="form-control" id="outputDesc"></textarea>
+						</div>
+					</div>
+				</div>
+			</form>
+  		</div>
+  	</div>	
+  </body>
+</html>
