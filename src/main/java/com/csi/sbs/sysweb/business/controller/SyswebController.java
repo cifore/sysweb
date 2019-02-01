@@ -27,4 +27,22 @@ public class SyswebController {
    	   public String testApi() throws JsonProcessingException{
     	  return "testApi";
    	   }
+   	  
+   	   @RequestMapping(value = "/currency", method = RequestMethod.GET)
+       @ApiIgnore()
+   	   public String currency() throws JsonProcessingException{
+    	  return "currency";
+   	   }
+   	   
+	   @RequestMapping(value = "/merchant", method = RequestMethod.GET)
+	   @ApiIgnore()
+	   public String creditcard() throws JsonProcessingException{
+		   return "merchant";
+	   }
+	   
+//	   @RequestMapping(value = "/tdRate", method = RequestMethod.GET)
+//	   @ApiIgnore()
+//	   public String tdRate() throws JsonProcessingException{
+//		   return "tdRate";
+//	   }
 }
