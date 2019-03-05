@@ -23,6 +23,38 @@
   
   <body>
   	<h2 style="text-align:center;"> API of Simulated Banking System </h2>
+  	<br/><br/>
+  	<div>
+  		<form class="form-horizontal">
+  			<div class="form-group">
+  				<label class="control-label col-sm-1" for="userID">User ID</label>
+				<div class="col-sm-1">
+					<input type="text" class="form-control" id="userID"/>
+				</div>
+				<label class="control-label col-sm-1" for="countryCode">Country Code</label>
+				<div class="col-sm-1">
+					<select id='countrycode' class="form-control" onChange="loadClearingcode()">
+						<option value="">--option--</option>
+					</select>
+				</div>
+				<label class="control-label col-sm-1" for="clearingCode">Clearing Code</label>
+				<div class="col-sm-1">
+					<select id='clearingcode' class="form-control" onChange="loadBranchcode()">
+						<option value="">--option--</option>
+					</select>
+				</div>
+				<label class="control-label col-sm-1" for="branchCode">Branch Code</label>
+				<div class="col-sm-1">
+					<select id='branchcode' class="form-control">
+						<option value="">--option--</option>
+					</select>
+				</div>
+				<div class="col-sm-4" style="text-align:left;">
+                      <button type="button" onclick="healthCheck()" style="margin-left:50px" id="btn_query" class="btn btn-primary">Health Check</button>
+                 </div>
+			</div>
+  		</form>
+  	</div>
   	<table id="tableContent">
 	   	
 	</table>

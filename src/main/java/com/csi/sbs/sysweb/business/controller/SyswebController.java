@@ -40,9 +40,15 @@ public class SyswebController {
 		   return "merchant";
 	   }
 	   
-//	   @RequestMapping(value = "/tdRate", method = RequestMethod.GET)
-//	   @ApiIgnore()
-//	   public String tdRate() throws JsonProcessingException{
-//		   return "tdRate";
-//	   }
+	   @RequestMapping(value = "/amountRange", method = RequestMethod.GET)
+	   @ApiIgnore()
+	   public String amountRange() throws JsonProcessingException{
+		   return "amountRange";
+	   }
+	   
+	   @RequestMapping(value = "/tdRate", method = RequestMethod.GET)
+	   @ApiIgnore()
+	   public String tdRate() throws JsonProcessingException{
+		   return "tdRate";
+	   }
 }

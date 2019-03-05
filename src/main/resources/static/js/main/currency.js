@@ -26,6 +26,11 @@ function loadAPIList(){
         cardView: false,                    //是否显示详细视图
         detailView: false,                  //是否显示父子表
         singleSelect:true, 				    //禁止多选_____
+        ajaxOptions:{
+        	headers:{
+        		"developerID" : "123"
+        	}
+        },
         columns: [{
             field: 'currency',
             title: 'Currency',
@@ -80,6 +85,9 @@ function updateCurrency(ccycode){
 		async:false,
 		cache:false,
 		data: JSON.stringify({"ccycode": ccycode}),
+		headers:{
+			"developerID": "123"
+		},
 		success: function(res){
 			var currencyInfo = res.ccyInfo;
 			$("#funcName").text("Update Currency");
@@ -105,6 +113,9 @@ function deleteCurrency(id){
 		async:false,
 		cache:false,
 		data: JSON.stringify({"id": id}),
+		headers: {
+			"developerID":"123"
+		},
 		success: function(res){
 			var yg = new Ygtoast();
 			yg.toast(res.msg);
@@ -158,6 +169,9 @@ function confirmAction(){
 		type: "POST",
 		contentType:"application/json",
 		data: JSON.stringify(data),
+		headers: {
+			"developerID": "123"
+		},
 		success: function(res){
 			var yg = new Ygtoast();
 			yg.toast(res.msg);

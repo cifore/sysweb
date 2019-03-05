@@ -1,6 +1,18 @@
 $(function(){
+	getUserID();
 	loadAPIList();
 });
+
+function getUserID(){
+	$.ajax({
+		url      : "/json/config.json",
+		type     : "get",
+		dataType : "json",
+		success  : function(res){
+			sessionStorage.setItem("userID", res.userID);
+		}
+	});
+}
 
 function loadAPIList(){
 	var hostname =  window.location.hostname;
@@ -26,10 +38,28 @@ function loadAPIList(){
         cardView: false,                    //是否显示详细视图
         detailView: false,                  //是否显示父子表
         singleSelect:true, 				    //禁止多选_____
-        columns: [{
-            field: 'merchantname',
-            title: 'Merchant Name',
+        ajaxOptions:{
+        	headers:{
+        		"developerID" : sessionStorage.getItem("userID") ? sessionStorage.getItem("userID") : "123"
+        	}
+        },
+        columns: [
+    	{
+            field: 'countrycode',
+            title: 'Country Code',
             sortable: false
+        },{
+            field: 'clearingcode',
+            title: 'Clearing Code',
+            sortable: false
+        },{
+            field: 'branchcode',
+            title: 'Branch Code',
+            sortable: false
+        },{
+	        field: 'merchantname',
+	        title: 'Merchant Name',
+	        sortable: false
         },{
             field: 'merchantnumber',
             title: 'Merchant Number',
@@ -50,18 +80,105 @@ function loadAPIList(){
 	});
 }
 
+function loadCountryCodeInfo(){
+	var hostname =  window.location.hostname;
+	var queryUrl = 'http://' + hostname + ':8086/sysadmin/sysadmin/branch/getCountryCodes';
+	$.ajax({
+		url: queryUrl,
+		dataType: "json",
+		type: "get",
+		success: function(res){
+			var html = '<option value="-1">-- Option --</option>';
+			if(res.countryCodes && res.countryCodes.length > 0){
+				for(var i=0; i< res.countryCodes.length ; i++){
+					html += "<option value='" + res.countryCodes[i].countrycode + "'> " + res.countryCodes[i].countrycode + "</option>"
+				}
+			}
+			$("#countrycode").html(html);
+		}
+	});
+}
+
+function loadClearingcode(){
+	var hostname =  window.location.hostname;
+	var queryUrl = 'http://' + hostname + ':8086/sysadmin/sysadmin/branch/getClearingCodeByCountryCode';
+	var countrycode = $("#countrycode").val();
+	var html = '<option value="">-- Option --</option>';
+	if(countrycode == ""){
+		$("#clearingcode").html(html);
+	}else{
+		$.ajax({
+			url: queryUrl,
+			dataType: "json",
+			type: "post",
+			contentType:"application/json",
+			async:false,
+			cache:false,
+			data: JSON.stringify({"countrycode": countrycode}),
+			success: function(res){
+				if(res.clearingCodes && res.clearingCodes.length > 0){
+					for(var i=0; i< res.clearingCodes.length ; i++){
+						html += "<option value='" + res.clearingCodes[i].clearingcode + "'> " + res.clearingCodes[i].clearingcode + "</option>"
+					}
+				}
+				$("#clearingcode").html(html);
+			}
+		});
+	}
+	loadBranchcode();
+}
+
+function loadBranchcode(){
+	var hostname =  window.location.hostname;
+	var queryUrl = 'http://' + hostname + ':8086/sysadmin/sysadmin/branch/getBrancoByCC';
+	var countrycode = $("#countrycode").val();
+	var clearingcode = $("#clearingcode").val();
+	var html = '<option value="">-- Option --</option>';
+	if(countrycode == ""){
+		$("#clearingcode").html(html);
+		$("#branchcode").html(html);
+	}else{
+		if(clearingcode  == ""){
+			$("#branchcode").html(html);
+		}else{
+			$.ajax({
+				url: queryUrl,
+				dataType: "json",
+				type: "post",
+				contentType:"application/json",
+				async:false,
+				cache:false,
+				data: JSON.stringify({"countrycode": countrycode, "clearingcode": clearingcode}),
+				success: function(res){
+					if(res.branchCodes && res.branchCodes.length > 0){
+						for(var i=0; i< res.branchCodes.length ; i++){
+							html += "<option value='" + res.branchCodes[i].branchcode + "'> " + res.branchCodes[i].branchcode + "</option>"
+						}
+					}
+					$("#branchcode").html(html);
+				}
+			});
+		}
+	}
+}
+
 function addNewMerchant(){
+	var html = "<option value=''>-- Option --</option>";
 	$("#funcName").text("Insert Merchant");
 	$("#merchantId").text("");
 	$("#merchantname").val("");
-	$("#merchantnumber").val("").removeAttr("readonly");
 	$("#merchantaddress").val("");
+	$("#countrycode").html(html);
+	$("#clearingcode").html(html);
+	$("#branchcode").html(html);
+	loadCountryCodeInfo();
 	$('#modifyMadal').modal('show');
 }
 
 function updateMerchant(id){
 	var hostname =  window.location.hostname;
 	var queryUrl ='http://' +hostname+ ':8086/creditcard/merchant/queryMerchantById';
+	var html = "<option value=''>-- Option --</option>";
 	$.ajax({
 		url: queryUrl,
 		dataType: "json",
@@ -70,13 +187,19 @@ function updateMerchant(id){
 		async:false,
 		cache:false,
 		data: JSON.stringify({"id": id}),
+		headers:{
+    		"developerID" : sessionStorage.getItem("userID")
+    	},
 		success: function(res){
 			var merchant = res.merchant;
 			$("#funcName").text("Update Merchant");
 			$("#merchantId").text(merchant.id);
 			$("#merchantname").val(merchant.merchantname);
-			$("#merchantnumber").val(merchant.merchantnumber).attr("readonly","readonly");
 			$("#merchantaddress").val(merchant.merchantaddress);
+			$("#countrycode").html(html);
+			$("#clearingcode").html(html);
+			$("#branchcode").html(html);
+			loadCountryCodeInfo();
 			$('#modifyMadal').modal('show');
 		}
 	});	
@@ -93,6 +216,9 @@ function deleteMerchant(id){
 		async:false,
 		cache:false,
 		data: JSON.stringify({"id": id}),
+		headers:{
+			"developerID" : sessionStorage.getItem("userID")
+		},
 		success: function(res){
 			var yg = new Ygtoast();
 			yg.toast(res.msg);
@@ -108,9 +234,16 @@ function confirmAction(){
 	var hostname =  window.location.hostname;
 	var merchantId = $("#merchantId").text();
 	var queryUrl = "";
+	var countrycode = $("#countrycode").val();
+	var clearingcode = $("#clearingcode").val();
+	var branchcode = $("#branchcode").val();
+	if(!countrycode || !clearingcode || !branchcode){
+		var yg = new Ygtoast();
+		yg.toast("Required fields are incomplete!");
+		return;
+	}
 	var data ={
 			"merchantname": $("#merchantname").val(),
-			"merchantnumber": $("#merchantnumber").val(),
 			"merchantaddress": $("#merchantaddress").val()
 	};
 	if(merchantId == ""){
@@ -125,12 +258,22 @@ function confirmAction(){
 		type: "POST",
 		contentType:"application/json",
 		data: JSON.stringify(data),
+		headers: {
+			"developerID" : sessionStorage.getItem("userID"),
+			"countryCode" : countrycode,
+			"clearingCode" :　clearingcode,
+			"branchCode" : branchcode
+		},
 		success: function(res){
 			var yg = new Ygtoast();
 			yg.toast(res.msg);
 			if(res.code == "1"){
 				$("#tableContent").bootstrapTable("refresh");
 			}
+			$('#modifyMadal').modal('hide');
+		},
+		error: function(){
+			$("#tableContent").bootstrapTable("refresh");
 			$('#modifyMadal').modal('hide');
 		}
 	});
