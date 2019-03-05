@@ -1,6 +1,19 @@
 $(function(){
 	loadAPIList();
+	getBranchInfo();
+	loadCountryCodeInfo();
 });
+
+function getBranchInfo(){
+	$.ajax({
+		url      : "/json/config.json",
+		type     : "get",
+		dataType : "json",
+		success  : function(res){
+			$("#userID").val(res.userID);
+		}
+	});
+}
 
 function loadAPIList(){
 	var hostname =  window.location.hostname;
@@ -26,6 +39,11 @@ function loadAPIList(){
         cardView: false,                    //是否显示详细视图
         detailView: false,                  //是否显示父子表
         singleSelect:false, 				//禁止多选_____
+        ajaxOptions:{
+        	headers:{
+        		"developerID" : $("#userID").val()
+        	}
+        },
         onLoadSuccess: function(data){
         	mergeTable("modulename");
         },
@@ -172,6 +190,88 @@ function getObjFromTable($table,field){
     	obj.push({"index":index,"row":row});
     }
     return obj; 
+}
+
+function loadCountryCodeInfo(){
+	var hostname =  window.location.hostname;
+	var queryUrl = 'http://' + hostname + ':8086/sysadmin/sysadmin/branch/getCountryCodes';
+	$.ajax({
+		url: queryUrl,
+		dataType: "json",
+		type: "get",
+		success: function(res){
+			var html = '<option value="">-- Option --</option>';
+			if(res.countryCodes && res.countryCodes.length > 0){
+				for(var i=0; i< res.countryCodes.length ; i++){
+					html += "<option value='" + res.countryCodes[i].countrycode + "'> " + res.countryCodes[i].countrycode + "</option>"
+				}
+			}
+			$("#countrycode").html(html);
+		}
+	});
+}
+
+function loadClearingcode(){
+	var hostname =  window.location.hostname;
+	var queryUrl = 'http://' + hostname + ':8086/sysadmin/sysadmin/branch/getClearingCodeByCountryCode';
+	var countrycode = $("#countrycode").val();
+	var html = '<option value="">-- Option --</option>';
+	if(countrycode == ""){
+		$("#clearingcode").html(html);
+	}else{
+		$.ajax({
+			url: queryUrl,
+			dataType: "json",
+			type: "post",
+			contentType:"application/json",
+			async:false,
+			cache:false,
+			data: JSON.stringify({"countrycode": countrycode}),
+			success: function(res){
+				if(res.clearingCodes && res.clearingCodes.length > 0){
+					for(var i=0; i< res.clearingCodes.length ; i++){
+						html += "<option value='" + res.clearingCodes[i].clearingcode + "'> " + res.clearingCodes[i].clearingcode + "</option>"
+					}
+				}
+				$("#clearingcode").html(html);
+			}
+		});
+	}
+	loadBranchcode();
+}
+
+function loadBranchcode(){
+	var hostname =  window.location.hostname;
+	var queryUrl = 'http://' + hostname + ':8086/sysadmin/sysadmin/branch/getBrancoByCC';
+	var countrycode = $("#countrycode").val();
+	var clearingcode = $("#clearingcode").val();
+	var html = '<option value="">-- Option --</option>';
+	if(countrycode == ""){
+		$("#clearingcode").html(html);
+		$("#branchcode").html(html);
+	}else{
+		if(clearingcode  == ""){
+			$("#branchcode").html(html);
+		}else{
+			$.ajax({
+				url: queryUrl,
+				dataType: "json",
+				type: "post",
+				contentType:"application/json",
+				async:false,
+				cache:false,
+				data: JSON.stringify({"countrycode": countrycode, "clearingcode": clearingcode}),
+				success: function(res){
+					if(res.branchCodes && res.branchCodes.length > 0){
+						for(var i=0; i< res.branchCodes.length ; i++){
+							html += "<option value='" + res.branchCodes[i].branchcode + "'> " + res.branchCodes[i].branchcode + "</option>"
+						}
+					}
+					$("#branchcode").html(html);
+				}
+			});
+		}
+	}
 }
 
 //Date Format
