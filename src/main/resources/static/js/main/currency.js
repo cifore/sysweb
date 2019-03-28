@@ -4,7 +4,7 @@ $(function(){
 
 function loadAPIList(){
 	var hostname =  window.location.hostname;
-	var queryUrl = 'http://' + hostname + ':8086/sysadmin/sysadmin/currency/CurrencyRetrieval';
+	var queryUrl = 'http://' + hostname + ':8086/sysadmin/sysadmin/currency/currencyRetrieval';
 	var table = $("#tableContent").bootstrapTable({
 		url: queryUrl,
         method: 'GET',                      //请求方式（*）
