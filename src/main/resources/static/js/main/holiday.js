@@ -1,10 +1,10 @@
 $(function(){
-	loadAPIList();
+	loadHolidayList();
 });
 
-function loadAPIList(){
+function loadHolidayList(){
 	var hostname =  window.location.hostname;
-	var queryUrl = 'http://' + hostname + ':8086/sysadmin/sysadmin/currency/currencyRetrieval';
+	var queryUrl = 'http://' + hostname + ':8086/sysadmin/sysadmin/queryHolidayList';
 	var table = $("#tableContent").bootstrapTable({
 		url: queryUrl,
         method: 'GET',                      //请求方式（*）
@@ -32,30 +32,18 @@ function loadAPIList(){
         	}
         },
         columns: [{
-            field: 'currency',
-            title: 'Currency',
+            field: 'countrycode',
+            title: 'Country Code',
             sortable: false
         },{
-            field: 'ccycode',
-            title: 'Ccy Code',
-            sortable: false
-        },{
-            field: 'ccyplaces',
-            title: 'Ccy Places',
-            sortable: false
-        },{
-            field: 'bankbuy',
-            title: 'Bank Buy',
-            sortable: false
-        },{
-            field: 'banksell',
-            title: 'Bank Sell',
+            field: 'day',
+            title: 'Holiday Date',
             sortable: false
         },{
             title: 'Operate',
             sortable: false,
             formatter:function(value, row, index){
-            	var html = "<div id='"+ row.id +"'><button class='btn btn-default' onclick=updateCurrency('" + row.ccycode + "')>Update</button> <button class='btn btn-default' onclick=deleteCurrency('" + row.id + "')>Delete</button></div>";
+            	var html = "<div id='"+ row.id +"'><button class='btn btn-default' onclick=updateHoldiay('" + row.id + "')>Update</button> <button class='btn btn-default' onclick=deleteHoliday('" + row.id + "')>Delete</button></div>";
             	return html;
             }
         }
@@ -63,20 +51,17 @@ function loadAPIList(){
 	});
 }
 
-function addNewCurrency(){
-	$("#funcName").text("Insert Currency");
+function addNewHoldiay(){
+	$("#funcName").text("Insert Holiday");
 	$("#currencyId").text("");
-	$("#currency").val("");
-	$("#ccycode").val("").removeAttr("readonly");
-	$("#ccyplaces").val("");
-	$("#bankbuy").val("");
-	$("#banksell").val("");
+	$("#countrycode").val("");
+	$("#day").val("");
 	$('#modifyMadal').modal('show');
 }
 
-function updateCurrency(ccycode){
+function updateHoldiay(id){
 	var hostname =  window.location.hostname;
-	var queryUrl ='http://' +hostname+ ':8086/sysadmin/sysadmin/currency/queryByCcyCode';
+	var queryUrl ='http://' +hostname+ ':8086/sysadmin/sysadmin/getHolidayInfo';
 	$.ajax({
 		url: queryUrl,
 		dataType: "json",
@@ -84,26 +69,28 @@ function updateCurrency(ccycode){
 		contentType:"application/json",
 		async:false,
 		cache:false,
-		data: JSON.stringify({"ccycode": ccycode}),
-		headers:{
-			"developerID": "123"
-		},
+		data: JSON.stringify({"id": id}),
 		success: function(res){
-			$("#funcName").text("Update Currency");
-			$("#currencyId").text(res.id);
-			$("#currency").val(res.currency);
-			$("#ccycode").val(res.ccycode).attr("readonly","readonly");
-			$("#ccyplaces").val(res.ccyplaces);
-			$("#bankbuy").val(res.bankbuy);
-			$("#banksell").val(res.banksell);
-			$('#modifyMadal').modal('show');
+			if(res.code == "1"){
+				var info = res.holidayInfo;
+				$("#funcName").text("Update Holiday");
+				$("#holidayId").text(info.id);
+				$("#countrycode").val(info.countrycode);
+				$("#day").val(info.day);
+				$('#modifyMadal').modal('show');
+				sessionStorage.setItm("countrycode",info.countrycode );
+				sessionStorage.setItm("day",info.day );
+			}else{
+				var yg = new Ygtoast();
+				yg.toast(res.msg);
+			}
 		}
 	});	
 }
 
-function deleteCurrency(id){
+function deleteHoliday(id){
 	var hostname =  window.location.hostname;
-	var queryUrl = 'http://' +hostname+ ':8086/sysadmin/sysadmin/currency/deleteCurrency';
+	var queryUrl = 'http://' +hostname+ ':8086/sysadmin/sysadmin/deleteHoliday';
 	$.ajax({
 		url: queryUrl,
 		dataType: "json",
@@ -112,9 +99,6 @@ function deleteCurrency(id){
 		async:false,
 		cache:false,
 		data: JSON.stringify({"id": id}),
-		headers: {
-			"developerID":"123"
-		},
 		success: function(res){
 			var yg = new Ygtoast();
 			yg.toast(res.msg);
@@ -129,38 +113,30 @@ function deleteCurrency(id){
 function confirmAction(){
 	var hostname =  window.location.hostname;
 	var queryUrl = "";
-	var currencyId = $("#currencyId").text();
-	var currency = $("#currency").val();
-	var ccycode = $("#ccycode").val();
-	var ccyplaces = $("#ccyplaces").val();
-	var bankbuy = $("#bankbuy").val();
-	var banksell = $("#banksell").val();
+	var holidayId = $("#holidayId").text();
+	var countrycode = $("#countrycode").val();
+	var day = $("#day").val();
 	var data = {};
 	var yg = new Ygtoast();
-	if(!currency || !ccycode || !ccyplaces || !bankbuy || !banksell){
+	var reg =/((\\d{2}(([02468][048])|([13579][26]))((((0?[13578])|(1[02]))((0?[1-9])|([1-2][0-9])|(3[01])))|(((0?[469])|(11))((0?[1-9])|([1-2][0-9])|(30)))|(0?2((0?[1-9])|([1-2][0-9])))))|(\\d{2}(([02468][1235679])|([13579][01345789]))((((0?[13578])|(1[02]))((0?[1-9])|([1-2][0-9])|(3[01])))|(((0?[469])|(11))((0?[1-9])|([1-2][0-9])|(30)))|(0?2((0?[1-9])|(1[0-9])|(2[0-8]))))))/;
+	if(!day || !countrycode){
 		yg.toast("The Input Can't Be Empty");
 		return false;
 	}
-	if(isNaN(bankbuy) || isNaN(banksell)){
-		yg.toast("Bank Buy and Bank Sell Can Only Input Number");
-		return false;
+	if(!reg.test(day)){
+		yg.toast("Invaild date format!");
+		return false
 	}
-	if(bankbuy.split(".")[1]!=null && bankbuy.split(".")[1].length > 4 || banksell.split(".")[1]!=null && banksell.split(".")[1].length > 4){
-		yg.toast("Bank Buy and Bank Sell are accurate to four decimal places");
-		return false;
-	}
-	data ={
-			"currency": currency,
-			"ccycode": ccycode,
-			"ccyplaces": ccyplaces,
-			"bankbuy": bankbuy,
-			"banksell": banksell
-			};
-	if(currencyId == ""){
-		queryUrl = 'http://' +hostname + ':8086/sysadmin/sysadmin/currency/insertCurrency';
+	data ={"countrycode": countrycode,"day": day};
+	if(holidayId == ""){
+		queryUrl = 'http://' +hostname + ':8086/sysadmin/sysadmin/insertHoliday';
 	}else{
-		data.id = currencyId;
-		queryUrl = 'http://' +hostname+ ':8086/sysadmin/sysadmin/currency/updateCurrency';
+		data.id = holidayId;
+		queryUrl = 'http://' +hostname+ ':8086/sysadmin/sysadmin/updateHoliday';
+		if(sessionStorage.getItem("countrycode") == countrycode && sessionStorage.getItem("day") == day){
+			yg.toast("No Holiday Info Changes! ");
+			return false;
+		}
 	}
 	$.ajax({
 		url: queryUrl,
@@ -168,12 +144,13 @@ function confirmAction(){
 		type: "POST",
 		contentType:"application/json",
 		data: JSON.stringify(data),
-		headers: {
-			"developerID": "123"
-		},
 		success: function(res){
 			var yg = new Ygtoast();
 			yg.toast(res.msg);
+			if(holidayId){
+				sessionStorage.removeItem("countrycode");
+				sessionStorage.removeItem("day");
+			}
 			if(res.code == "1"){
 				$("#tableContent").bootstrapTable("refresh");
 			}
@@ -183,5 +160,10 @@ function confirmAction(){
 }
 
 function cancelAction(){
+	var holidayId = $("#holidayId").text();
+	if(holidayId){
+		sessionStorage.removeItem("countrycode");
+		sessionStorage.removeItem("day");
+	}
 	$('#modifyMadal').modal('hide');
 }
