@@ -51,4 +51,22 @@ public class SyswebController {
 	   public String tdRate() throws JsonProcessingException{
 		   return "tdRate";
 	   }
+	   
+	   @RequestMapping(value = "/sysConfig", method = RequestMethod.GET)
+	   @ApiIgnore()
+	   public String sysConfig() throws JsonProcessingException{
+		   return "sysconfig";
+	   }
+	   
+	   @RequestMapping(value = "/module", method = RequestMethod.GET)
+	   @ApiIgnore()
+	   public String module() throws JsonProcessingException{
+		   return "module";
+	   }
+	   
+	   @RequestMapping(value = "/holiday", method = RequestMethod.GET)
+	   @ApiIgnore()
+	   public String holiday() throws JsonProcessingException{
+		   return "holiday";
+	   }
 }
