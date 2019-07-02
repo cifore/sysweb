@@ -16,7 +16,7 @@ function getBranchInfo(){
 }
 
 function loadAPIList(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = 'http://' + hostname + ':8086/sysadmin/sysadmin/queryApiList';
 	var table = $("#tableContent").bootstrapTable({
 		url: queryUrl,
@@ -193,7 +193,7 @@ function getObjFromTable($table,field){
 }
 
 function loadCountryCodeInfo(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = 'http://' + hostname + ':8086/sysadmin/sysadmin/branch/getCountryCodes';
 	$.ajax({
 		url: queryUrl,
@@ -212,7 +212,7 @@ function loadCountryCodeInfo(){
 }
 
 function loadClearingcode(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = 'http://' + hostname + ':8086/sysadmin/sysadmin/branch/getClearingCodeByCountryCode';
 	var countrycode = $("#countrycode").val();
 	var html = '<option value="">-- Option --</option>';
@@ -241,7 +241,7 @@ function loadClearingcode(){
 }
 
 function loadBranchcode(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = 'http://' + hostname + ':8086/sysadmin/sysadmin/branch/getBrancoByCC';
 	var countrycode = $("#countrycode").val();
 	var clearingcode = $("#clearingcode").val();

@@ -3,7 +3,7 @@ $(function(){
 });
 
 function loadAPIList(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = 'http://' + hostname + ':8086/sysadmin/sysadmin/currency/currencyRetrieval';
 	var table = $("#tableContent").bootstrapTable({
 		url: queryUrl,
@@ -75,7 +75,7 @@ function addNewCurrency(){
 }
 
 function updateCurrency(ccycode){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl ='http://' +hostname+ ':8086/sysadmin/sysadmin/currency/queryByCcyCode';
 	$.ajax({
 		url: queryUrl,
@@ -102,7 +102,7 @@ function updateCurrency(ccycode){
 }
 
 function deleteCurrency(id){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = 'http://' +hostname+ ':8086/sysadmin/sysadmin/currency/deleteCurrency';
 	$.ajax({
 		url: queryUrl,
@@ -127,7 +127,7 @@ function deleteCurrency(id){
 }
 
 function confirmAction(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = "";
 	var currencyId = $("#currencyId").text();
 	var currency = $("#currency").val();

@@ -15,7 +15,7 @@ function getUserID(){
 }
 
 function loadAPIList(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = 'http://' + hostname + ':8086/creditcard/merchant/getMerchants';
 	var table = $("#tableContent").bootstrapTable({
 		url: queryUrl,
@@ -93,7 +93,7 @@ function loadAPIList(){
 }
 
 function loadCountryCodeInfo(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = 'http://' + hostname + ':8086/sysadmin/sysadmin/branch/getCountryCodes';
 	$.ajax({
 		url: queryUrl,
@@ -112,7 +112,7 @@ function loadCountryCodeInfo(){
 }
 
 function loadClearingcode(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = 'http://' + hostname + ':8086/sysadmin/sysadmin/branch/getClearingCodeByCountryCode';
 	var countrycode = $("#countrycode").val();
 	var html = '<option value="">-- Option --</option>';
@@ -141,7 +141,7 @@ function loadClearingcode(){
 }
 
 function loadBranchcode(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = 'http://' + hostname + ':8086/sysadmin/sysadmin/branch/getBrancoByCC';
 	var countrycode = $("#countrycode").val();
 	var clearingcode = $("#clearingcode").val();
@@ -194,7 +194,7 @@ function addNewMerchant(){
 }
 
 function updateMerchant(id){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl ='http://' +hostname+ ':8086/creditcard/merchant/queryMerchantById';
 	var html = "<option value=''>-- Option --</option>";
 	$.ajax({
@@ -231,7 +231,7 @@ function updateMerchant(id){
 }
 
 function deleteMerchant(id){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = 'http://' +hostname+ ':8086/creditcard/merchant/deleteMerchant';
 	$.ajax({
 		url: queryUrl,
@@ -256,7 +256,7 @@ function deleteMerchant(id){
 }
 
 function confirmAction(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var merchantId = $("#merchantId").text();
 	var queryUrl = "";
 	var countrycode = $("#countrycode").val();

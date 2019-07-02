@@ -17,7 +17,7 @@ function getBranchInfo(){
 }
 
 function loadAPIList(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = 'http://' + hostname + ':8086/deposit/deposit/rate/getAllTdRateList';
 	var table = $("#tableContent").bootstrapTable({
 		url: queryUrl,
@@ -93,7 +93,7 @@ function loadAPIList(){
 
 function loadccyType(){
 	var html = '<option value="">-- Option --</option>';
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl ='http://' +hostname+ ':8086/sysadmin/sysadmin/sysconfig/getSystemParameter';
 	$.ajax({
 		url: queryUrl,
@@ -119,7 +119,7 @@ function loadccyType(){
 
 function loadTdPeriodList(){
 	var html = '<option value="">-- Option --</option>';
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl ='http://' +hostname+ ':8086/deposit/deposit/rate/getPeirodList';
 	$.ajax({
 		url: queryUrl,
@@ -140,7 +140,7 @@ function loadTdPeriodList(){
 }
 
 function updateRate(id){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl ='http://' +hostname+ ':8086/deposit/deposit/rate/getTDRateDetails';
 	var html = "<option value=''>-- Option --</option>";
 	$.ajax({
@@ -200,7 +200,7 @@ function addTdRate(){
 }
 
 function deleteTdRate(id){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = 'http://' +hostname+ ':8086/deposit/deposit/rate/deleteTdRate';
 	$.ajax({
 		url: queryUrl,
@@ -229,7 +229,7 @@ function confirmAction(){
 	var tdPeriodSelect = $("#tdPeriodSelect").val();
 	var tdPeriodInput = $("#tdPeriodInput").val();
 	var tdRate = $("#tdRate").val();
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = "";
 	var data = {
 			depositrange: amountRangeSelect,
@@ -282,7 +282,7 @@ function showAmountRange(){
 }
 
 function loadAmountRangeList(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = 'http://' + hostname + ':8086/deposit/deposit/rate/getAllAmountRangeList/all';
 	$.ajax({
 		url: queryUrl,
@@ -302,7 +302,7 @@ function loadAmountRangeList(){
 }
 
 function searchAmountRange(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var countryCode = $("#countrycode").val();
 	var clearingCode = $("#clearingcode").val();
 	var branchcode = $("#branchcode").val();
@@ -396,7 +396,7 @@ function closeAction(){
 }
 
 function loadCountryCodeInfo(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = 'http://' + hostname + ':8086/sysadmin/sysadmin/branch/getCountryCodes';
 	$.ajax({
 		url: queryUrl,
@@ -415,7 +415,7 @@ function loadCountryCodeInfo(){
 }
 
 function loadClearingcode(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = 'http://' + hostname + ':8086/sysadmin/sysadmin/branch/getClearingCodeByCountryCode';
 	var countrycode = $("#countrycode").val();
 	var html = '<option value="">-- Option --</option>';
@@ -444,7 +444,7 @@ function loadClearingcode(){
 }
 
 function loadBranchcode(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = 'http://' + hostname + ':8086/sysadmin/sysadmin/branch/getBrancoByCC';
 	var countrycode = $("#countrycode").val();
 	var clearingcode = $("#clearingcode").val();

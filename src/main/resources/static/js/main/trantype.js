@@ -3,7 +3,7 @@ $(function(){
 });
 
 function loadTranTypeList(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = 'http://' + hostname + ':8086/sysadmin/sysadmin/trantype/getAll';
 	var table = $("#tableContent").bootstrapTable({
 		url: queryUrl,
@@ -55,7 +55,7 @@ function addNewTran(){
 }
 
 function updateTran(trantype){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl ='http://' +hostname+ ':8086/sysadmin/sysadmin/trantype/queryTranType/'+trantype;
 	$.ajax({
 		url: queryUrl,
@@ -77,7 +77,7 @@ function updateTran(trantype){
 }
 
 function deleteTran(id){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = 'http://' +hostname+ ':8086/sysadmin/sysadmin/trantype/deleteTranType';
 	$.ajax({
 		url: queryUrl,
@@ -99,7 +99,7 @@ function deleteTran(id){
 }
 
 function confirmAction(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = "";
 	var trantypeId = $("#trantypeId").text();
 	var transname = $("#transname").val();

@@ -3,7 +3,7 @@ $(function(){
 });
 
 function loadHolidayList(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = 'http://' + hostname + ':8086/sysadmin/sysadmin/queryHolidayList';
 	var table = $("#tableContent").bootstrapTable({
 		url: queryUrl,
@@ -60,7 +60,7 @@ function addNewHoliday(){
 }
 
 function updateHoldiay(id){
-	var hostname =  window.location.hostname;
+	var hostname = "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl ='http://' +hostname+ ':8086/sysadmin/sysadmin/getHolidayInfo';
 	$.ajax({
 		url: queryUrl,
@@ -89,7 +89,7 @@ function updateHoldiay(id){
 }
 
 function deleteHoliday(id){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = 'http://' +hostname+ ':8086/sysadmin/sysadmin/deleteHoliday';
 	$.ajax({
 		url: queryUrl,
@@ -111,7 +111,7 @@ function deleteHoliday(id){
 }
 
 function confirmAction(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = "";
 	var holidayId = $("#holidayId").text();
 	var countrycode = $("#countrycode").val();
