@@ -24,7 +24,7 @@ function getBranchInfo(){
 
 //加载API信息
 function loadApiInfo(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var id=sessionStorage.getItem('apiId');
 	var queryUrl ='http://' +hostname+ ':8086/sysadmin/sysadmin/getApiInfo/'+ id;
 	$.ajax({
@@ -57,7 +57,7 @@ function returnListPage(){
 
 //发送API请求
 function sendApi(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var apiaddress = $("#apiUrl").val();
 	var requestmode = $("#requestMethod").val();
 	var inputDesc = $("#inputDesc").val();
@@ -89,7 +89,7 @@ function sendApi(){
 }
 
 function loadCountryCodeInfo(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = 'http://' + hostname + ':8086/sysadmin/sysadmin/branch/getCountryCodes';
 	$.ajax({
 		url: queryUrl,
@@ -108,7 +108,7 @@ function loadCountryCodeInfo(){
 }
 
 function loadClearingcode(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = 'http://' + hostname + ':8086/sysadmin/sysadmin/branch/getClearingCodeByCountryCode';
 	var countrycode = $("#countrycode").val();
 	var html = '<option value="">-- Option --</option>';
@@ -137,7 +137,7 @@ function loadClearingcode(){
 }
 
 function loadBranchcode(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = 'http://' + hostname + ':8086/sysadmin/sysadmin/branch/getBrancoByCC';
 	var countrycode = $("#countrycode").val();
 	var clearingcode = $("#clearingcode").val();

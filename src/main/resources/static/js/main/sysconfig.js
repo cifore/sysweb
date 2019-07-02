@@ -15,7 +15,7 @@ function getBranchInfo(){
 }
 
 function loadAPIList(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = 'http://' + hostname + ':8086/sysadmin/sysadmin/sysconfig/querySysConfList';
 	var table = $("#tableContent").bootstrapTable({
 		url: queryUrl,
@@ -86,7 +86,7 @@ function getInfo(info){
 }
 
 function confirmAction(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = 'http://' +hostname+ ':8086/sysadmin/sysadmin/sysconfig/updateParam';
 	var itemId = $("#itemId").text();
 	var value = $("#value").val();

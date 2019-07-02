@@ -14,7 +14,7 @@ function getUserID(){
 }
 
 function loadModuleList(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = 'http://' + hostname + ':8086/sysadmin/sysadmin/module/queryModuleList';
 	var table = $("#tableContent").bootstrapTable({
 		url: queryUrl,
@@ -66,7 +66,7 @@ function addNewModule(){
 }
 
 function queryModule(id){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl ='http://' +hostname+ ':8086/sysadmin/sysadmin/module/findModule';
 	$.ajax({
 		url: queryUrl,
@@ -91,7 +91,7 @@ function queryModule(id){
 }
 
 function deleteModule(id){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = 'http://' +hostname+ ':8086/sysadmin/sysadmin/module/delete';
 	$.ajax({
 		url: queryUrl,
@@ -116,7 +116,7 @@ function deleteModule(id){
 }
 
 function confirmAction(){
-	var hostname =  window.location.hostname;
+	var hostname =  "ec2-3-130-122-199.us-east-2.compute.amazonaws.com";
 	var queryUrl = "";
 	var moduleId = $("#moduleId").text();
 	var moduleName = $("#moduleName").val();
