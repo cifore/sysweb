@@ -27,30 +27,18 @@ function loadTranTypeList(){
         detailView: false,                  //是否显示父子表
         singleSelect:true, 				    //禁止多选_____
         columns: [{
-            field: 'currency',
-            title: 'Currency',
+            field: 'trantype',
+            title: 'Transaction Type',
             sortable: false
         },{
-            field: 'ccycode',
-            title: 'Ccy Code',
-            sortable: false
-        },{
-            field: 'ccyplaces',
-            title: 'Ccy Places',
-            sortable: false
-        },{
-            field: 'bankbuy',
-            title: 'Bank Buy',
-            sortable: false
-        },{
-            field: 'banksell',
-            title: 'Bank Sell',
+            field: 'trantypename',
+            title: 'Transaction Type Name',
             sortable: false
         },{
             title: 'Operate',
             sortable: false,
             formatter:function(value, row, index){
-            	var html = "<div id='"+ row.id +"'><button class='btn btn-default' onclick=updateTran('" + row.ccycode + "')>Update</button> <button class='btn btn-default' onclick=deleteTran('" + row.id + "')>Delete</button></div>";
+            	var html = "<div id='"+ row.id +"'><button class='btn btn-default' onclick=updateTran('" + row.trantype + "')>Update</button> <button class='btn btn-default' onclick=deleteTran('" + row.id + "')>Delete</button></div>";
             	return html;
             }
         }
@@ -59,38 +47,30 @@ function loadTranTypeList(){
 }
 
 function addNewTran(){
-	$("#funcName").text("Insert Currency");
-	$("#currencyId").text("");
-	$("#currency").val("");
-	$("#ccycode").val("").removeAttr("readonly");
-	$("#ccyplaces").val("");
-	$("#bankbuy").val("");
-	$("#banksell").val("");
+	$("#funcName").text("Insert Transaction Type");
+	$("#trantypeId").text("");
+	$("#transTypeModel").hide();
+	$("#transname").val("");
 	$('#modifyMadal').modal('show');
 }
 
-function updateTran(ccycode){
+function updateTran(trantype){
 	var hostname =  window.location.hostname;
-	var queryUrl ='http://' +hostname+ ':8086/sysadmin/sysadmin/currency/queryByCcyCode';
+	var queryUrl ='http://' +hostname+ ':8086/sysadmin/sysadmin/trantype/queryTranType/'+trantype;
 	$.ajax({
 		url: queryUrl,
 		dataType: "json",
-		type: "post",
+		type: "get",
 		contentType:"application/json",
 		async:false,
 		cache:false,
-		data: JSON.stringify({"ccycode": ccycode}),
-		headers:{
-			"developerID": "123"
-		},
 		success: function(res){
-			$("#funcName").text("Update Currency");
-			$("#currencyId").text(res.id);
-			$("#currency").val(res.currency);
-			$("#ccycode").val(res.ccycode).attr("readonly","readonly");
-			$("#ccyplaces").val(res.ccyplaces);
-			$("#bankbuy").val(res.bankbuy);
-			$("#banksell").val(res.banksell);
+			var info = res.typeInfo;
+			$("#funcName").text("Update Transaction Type");
+			$("#trantypeId").text(info.id);
+			$("#transtype").val(info.trantype);
+			$("#transname").val(info.transname);
+			$("#transTypeModel").show();
 			$('#modifyMadal').modal('show');
 		}
 	});	
@@ -98,7 +78,7 @@ function updateTran(ccycode){
 
 function deleteTran(id){
 	var hostname =  window.location.hostname;
-	var queryUrl = 'http://' +hostname+ ':8086/sysadmin/sysadmin/currency/deleteCurrency';
+	var queryUrl = 'http://' +hostname+ ':8086/sysadmin/sysadmin/trantype/deleteTranType';
 	$.ajax({
 		url: queryUrl,
 		dataType: "json",
@@ -107,9 +87,6 @@ function deleteTran(id){
 		async:false,
 		cache:false,
 		data: JSON.stringify({"id": id}),
-		headers: {
-			"developerID":"123"
-		},
 		success: function(res){
 			var yg = new Ygtoast();
 			yg.toast(res.msg);
@@ -124,38 +101,22 @@ function deleteTran(id){
 function confirmAction(){
 	var hostname =  window.location.hostname;
 	var queryUrl = "";
-	var currencyId = $("#currencyId").text();
-	var currency = $("#currency").val();
-	var ccycode = $("#ccycode").val();
-	var ccyplaces = $("#ccyplaces").val();
-	var bankbuy = $("#bankbuy").val();
-	var banksell = $("#banksell").val();
+	var trantypeId = $("#trantypeId").text();
+	var transname = $("#transname").val();
 	var data = {};
 	var yg = new Ygtoast();
-	if(!currency || !ccycode || !ccyplaces || !bankbuy || !banksell){
+	if(!transname){
 		yg.toast("The Input Can't Be Empty");
 		return false;
 	}
-	if(isNaN(bankbuy) || isNaN(banksell)){
-		yg.toast("Bank Buy and Bank Sell Can Only Input Number");
-		return false;
-	}
-	if(bankbuy.split(".")[1]!=null && bankbuy.split(".")[1].length > 4 || banksell.split(".")[1]!=null && banksell.split(".")[1].length > 4){
-		yg.toast("Bank Buy and Bank Sell are accurate to four decimal places");
-		return false;
-	}
 	data ={
-			"currency": currency,
-			"ccycode": ccycode,
-			"ccyplaces": ccyplaces,
-			"bankbuy": bankbuy,
-			"banksell": banksell
+			"trantypename": transname
 			};
-	if(currencyId == ""){
-		queryUrl = 'http://' +hostname + ':8086/sysadmin/sysadmin/currency/insertCurrency';
+	if(trantypeId == ""){
+		queryUrl = 'http://' +hostname + ':8086/sysadmin/sysadmin/trantype/addTranType';
 	}else{
-		data.id = currencyId;
-		queryUrl = 'http://' +hostname+ ':8086/sysadmin/sysadmin/currency/updateCurrency';
+		data.id = trantypeId;
+		queryUrl = 'http://' +hostname+ ':8086/sysadmin/sysadmin/trantype/updateTranType';
 	}
 	$.ajax({
 		url: queryUrl,

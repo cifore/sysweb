@@ -29,7 +29,7 @@ function loadAPIList(){
         search: false,                      //是否显示表格搜索
         strictSearch: false,				//精确搜索
         showColumns: false,                  //是否显示所有的列（选择显示的列）
-        showRefresh: true,                  //是否显示刷新按钮
+        showRefresh: false,                  //是否显示刷新按钮
         minimumCountColumns: 2,             //最少允许的列数
         clickToSelect: false,                //是否启用点击选中行
         //height: 500,                      //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
@@ -52,7 +52,14 @@ function loadAPIList(){
         },{
             field: 'value',
             title: 'Value',
-            sortable: false
+            sortable: false,
+            formatter:function(value, row, index){
+            	if(row.item == "SystemDate"){
+            		return ""+ new Date(Number(value)).format("yyyy-MM-dd") +"";
+            	}else{
+            		return "" + value + "";
+            	}
+            }
         },{
             field: 'remark',
             title: 'Remark',
@@ -68,6 +75,10 @@ function getInfo(info){
 	$("#itemId").text(info.id);
 	$("#itemName").val(info.item);
 	$("#value").val(info.value);
+	if( info.item == "SystemDate"){
+		$("#value").val(new Date(Number(info.value)).format("yyyy-MM-dd"));
+	}
+	
 	$("#remark").val(info.remark);
 	sessionStorage.setItem("itemName", info.item);
 	sessionStorage.setItem("itemValue", info.value);
@@ -91,12 +102,14 @@ function confirmAction(){
 		return false;
 	}
 	if(sessionStorage.getItem("itemName") == "SystemDate"){
-		var reg = /^((([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8]))))|((([0-9]{2})(0[48]|[2468][048]|[13579][26])|((0[48]|[2468][048]|[3579][26])00))-02-29))\s([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/;
-
+		var reg = /^(([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8]))))|((([0-9]{2})(0[48]|[2468][048]|[13579][26])|((0[48]|[2468][048]|[3579][26])00))-02-29)$/
+		var d = "";
 		if(!reg.test(value)){
 			yg.toast("Incorrect system date format !");
 			return false;
 		}
+		d = new Date(value).getTime();
+		data.value = d;
 	}
 	if(sessionStorage.getItem("itemValue") && value == sessionStorage.getItem("itemValue") 
 			&& remark == sessionStorage.getItem("remark")){
@@ -143,4 +156,26 @@ function cancelAction(){
 		sessionStorage.removeItem("remark");
 	}
 	$('#modifyMadal').modal('hide');
+}
+
+//Date Format
+Date.prototype.format = function(fmt) { 
+    var o = { 
+       "M+" : this.getMonth()+1,
+       "d+" : this.getDate(),
+       "h+" : this.getHours(),
+       "m+" : this.getMinutes(),
+       "s+" : this.getSeconds(),
+       "q+" : Math.floor((this.getMonth()+3)/3),
+       "S"  : this.getMilliseconds()
+   }; 
+   if(/(y+)/.test(fmt)) {
+           fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+   }
+    for(var k in o) {
+       if(new RegExp("("+ k +")").test(fmt)){
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+        }
+    }
+   return fmt; 
 }

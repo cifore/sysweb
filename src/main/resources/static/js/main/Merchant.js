@@ -61,6 +61,10 @@ function loadAPIList(){
 	        title: 'Merchant Name',
 	        sortable: false
         },{
+	        field: 'category',
+	        title: 'Category',
+	        sortable: false
+        },{
             field: 'merchantnumber',
             title: 'Merchant Number',
             sortable: false
@@ -69,10 +73,18 @@ function loadAPIList(){
             title: 'Merchant Address',
             sortable: false
         },{
+            field: 'phone',
+            title: 'Phone',
+            sortable: false
+        },{
+            field: 'paymentterm',
+            title: 'Payment Term',
+            sortable: false
+        },{
             title: 'Operate',
             sortable: false,
             formatter:function(value, row, index){
-            	var html = "<div id='"+ row.id +"'><button class='btn btn-default' onclick=updateMerchant('" + row.id + "')>Update</button> <button class='btn btn-default' onclick=deleteMerchant('" + row.id + "')>Delete</button></div>";
+            	var html = "<div id='"+ row.id +"'><button class='btn btn-default' onclick=updateMerchant('" + row.id + "')>Update</button><br/><button class='btn btn-default' onclick=deleteMerchant('" + row.id + "')>Delete</button></div>";
             	return html;
             }
         }
@@ -168,6 +180,12 @@ function addNewMerchant(){
 	$("#merchantId").text("");
 	$("#merchantname").val("");
 	$("#merchantaddress").val("");
+	$("#displayname").val("");
+	$("#category").val("");
+	$("#paymentterm").val("");
+	$("#phone").val("");
+	$("#merchantnumbermbox").hide();
+	$("#businesslicenseid").val("").removeAttr("readonly");
 	$("#countrycode").html(html);
 	$("#clearingcode").html(html);
 	$("#branchcode").html(html);
@@ -196,10 +214,17 @@ function updateMerchant(id){
 			$("#merchantId").text(merchant.id);
 			$("#merchantname").val(merchant.merchantname);
 			$("#merchantaddress").val(merchant.merchantaddress);
+			$("#displayname").val(merchant.displayname);
+			$("#category").val(merchant.category);
+			$("#paymentterm").val(merchant.paymentterm);
+			$("#phone").val(merchant.phone);
+			$("#merchantnumber").val(merchant.merchantnumber);
+			$("#businesslicenseid").val(merchant.businesslicenseid).attr("readonly","readonly");
 			$("#countrycode").html(html);
 			$("#clearingcode").html(html);
 			$("#branchcode").html(html);
 			loadCountryCodeInfo();
+			$("#merchantnumbermbox").show();
 			$('#modifyMadal').modal('show');
 		}
 	});	
@@ -244,12 +269,23 @@ function confirmAction(){
 	}
 	var data ={
 			"merchantname": $("#merchantname").val(),
-			"merchantaddress": $("#merchantaddress").val()
+			"merchantaddress": $("#merchantaddress").val(),
+			"displayname": $("#displayname").val(),
+			"category": $("#category").val(),
+			"paymentterm": $("#paymentterm").val(),
+			"phone": $("#phone").val(),
 	};
 	if(merchantId == ""){
+		data.businesslicenseid = $("#businesslicenseid").val();
+		data.countryCode = countrycode;
+		data.clearingCode = clearingcode;
+		data.branchCode = branchcode;
 		queryUrl = 'http://' +hostname+ ':8086/creditcard/merchant/insertMerchant';
 	}else{
 		data.id = merchantId;
+		data.countrycode = countrycode;
+		data.clearingcode = clearingcode;
+		data.branchcode = branchcode;
 		queryUrl = 'http://' +hostname+ ':8086/creditcard/merchant/updateMerchant';
 	}
 	$.ajax({

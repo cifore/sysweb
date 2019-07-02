@@ -1,43 +1,38 @@
 $(function () {
-	$('iframe').attr('src',''); 
+	$('iframe').attr('src','sysConfig'); 
 });
 
-function adminList(){
-	$('iframe').attr('src',''); 
+function sysConfig(){
+	$('iframe').attr('src','/sysweb/sysConfig'); 
 }
 
-function userList(){
-	$('iframe').attr('src',''); 
+function currency(){
+	$('iframe').attr('src','/sysweb/currency'); 
 }
 
-function taskList(){
-	$('iframe').attr('src',''); 
+function module(){
+	$('iframe').attr('src','/sysweb/module'); 
 }
 
-function wordList(){
-	$('iframe').attr('src','');
+function holiday(){
+	$('iframe').attr('src','/sysweb/holiday');
 }
 
-function sysParamList(){
-	$('iframe').attr('src','');
+function trantype(){
+	$('iframe').attr('src','/sysweb/trantype');
 }
 
-function reportList(){
-	$('iframe').attr('src','');
+function amountRange(){
+	$('iframe').attr('src','/sysweb/amountRange');
 }
 
-function thesaureList(){
-	$('iframe').attr('src','');
+function tdRate(){
+	$('iframe').attr('src','/sysweb/tdRate');
 }
 
-function taskProgressReport(){
-	$('iframe').attr('src','');
+function merchant(){
+	$('iframe').attr('src','/sysweb/merchant');
 }
-
-function courseApplyList(){
-	$('iframe').attr('src','');
-}
-
 
 
 

@@ -75,4 +75,10 @@ public class SyswebController {
 	public String holiday() throws JsonProcessingException {
 		return "holiday";
 	}
+	
+	@RequestMapping(value = "/trantype", method = RequestMethod.GET)
+	@ApiIgnore()
+	public String trantype() throws JsonProcessingException {
+		return "trantype";
+	}
 }

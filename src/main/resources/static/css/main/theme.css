@@ -511,22 +511,6 @@ a.panel-heading:hover,
 .sidebar-nav .nav-list.collapse.in {
   border-bottom: 1px solid #ccc;
 }
-/*Buttons*/
-.btn {
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-}
-.btn-primary {
-  background-color: #414959;
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#4c5568), to(#414959));
-  border: 1px solid #363d4a;
-  font-weight: normal;
-}
-.btn-primary:hover {
-  background-color: #414959;
-  *background-color: #414959;
-}
 .btn-danger {
   background-color: #553333;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#653d3d), to(#553333));
