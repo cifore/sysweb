@@ -21,7 +21,7 @@ function loadAPIList(){
 		url: queryUrl,
         method: 'GET',                      //请求方式（*）
         contentType:'application/x-www-form-urlencoded; charset=UTF-8',
-        striped: true,                      //是否显示行间隔色
+        striped: false,                      //是否显示行间隔色
         cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
         pagination: false,                   //是否显示分页（*）
         sortable: false,                     //是否启用排序
@@ -37,7 +37,7 @@ function loadAPIList(){
         showToggle: false,                   //是否显示详细视图和列表视图的切换按钮
         cardView: false,                    //是否显示详细视图
         detailView: false,                  //是否显示父子表
-        singleSelect:false, 				//禁止多选_____
+        singleSelect:true, 				//禁止多选_____
         onDblClickRow:function(row){
         	getInfo(row);
         },
