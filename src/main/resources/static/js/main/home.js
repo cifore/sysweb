@@ -34,6 +34,10 @@ function merchant(){
 	$('iframe').attr('src','/sysweb/merchant');
 }
 
+function stockorder(){
+    $('iframe').attr('src','/sysweb/stockorder');
+}
+
 
 
 

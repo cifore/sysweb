@@ -81,4 +81,10 @@ public class SyswebController {
 	public String trantype() throws JsonProcessingException {
 		return "trantype";
 	}
+
+	@RequestMapping(value = "/stockorder", method = RequestMethod.GET)
+	@ApiIgnore()
+	public String stockorder() throws JsonProcessingException {
+		return "stockorder";
+	}
 }
